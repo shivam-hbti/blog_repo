@@ -1,0 +1,19 @@
+{% extends 'blogapp/base.html' %}
+{% block title_block %}Shivam Blog{% endblock %}
+{% block child_block %}
+<h1>Shivam's Blog</h1>
+    {% if tag %}
+    <h2>Post related to {{ tag.name }}</h2>
+    {% endif %}
+{% for post in post_list %}
+<a style='color:#3B5998;' href="{{post.get_absolute_url}}"><h2>{{post.title}}</h2></a> 
+<p id="date">Published on {{post.publish}} by {{post.author|title}}</p>
+    Related Posts:
+    {% for tag in post.tags.all %}
+        <a href="{% url 'get_post_with_tag' tag.slug %}" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-fw"></i>{{ tag.name }}</a>
+{% endfor %}
+    <br><br>
+        {{post.body|truncatewords:30|linebreaks}}
+{% endfor %}
+{% include 'blogapp/pagination.html' with page=post_list %}
+{% endblock %}

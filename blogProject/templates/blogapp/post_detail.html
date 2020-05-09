@@ -1,0 +1,41 @@
+{% extends 'blogapp/base.html' %}
+{% block title_block %}{{post.title}}{% endblock %}
+{% block child_block %}
+<h1>{{post.title}}</h1>
+<p id="date">Published on {{post.publish}} by {{post.author|title}}</p>
+{{post.body|linebreaks}}
+  <a href="/{{post.id}}/share" title="Facebook" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-fw"></i>Share by Email</a>
+<br><br><br>
+    {% with comments.count as comments_count %}
+    <h2>{{ comments_count }} Comment{{ comments_count|pluralize }}</h2>
+    {% endwith %}
+    {% if comments %}
+    {% for comment in comments %}
+    <p id="ch">Comment {{ forloop.counter }} by {{ comment.name }} on {{ comment.created }}</p>
+    <div id="cb">{{ comment.body|linebreaks }}</div>
+    {% endfor %}
+        {% else %}
+        <p>There are no comments yet !!!</p>
+    {% endif %}
+    {% if csubmit %}
+    <h2>Your comment added successfully</h2>
+    {% else %}
+        <hr>
+    <h2>You can submit your comment</h2>
+    <form method="post">
+     <table>
+      {% for field in form %}
+        <tr>
+          <th>{{field.label_tag}}</th>
+          <td>
+            {{ field.errors }}
+            {{ field }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table><br>
+    {% csrf_token %}
+    <input type='submit' id='comment' title="Facebook" class="btn btn-facebook btn-lg" value='Submit'><i class="fa fa-facebook fa-fw"></i>
+    </form>
+    {% endif %}
+{% endblock %}

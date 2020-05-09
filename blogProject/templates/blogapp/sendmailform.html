@@ -1,0 +1,28 @@
+{% extends 'blogapp/base.html' %}
+{% block title_block %}{% endblock %}
+{% block child_block %}
+    {% if sent  %}
+        <h2>Mail with title {{ post.title }} Sent Successfully</h2>
+   {% else %}
+<form method='post'>
+  <center>
+    <br>
+  <u><h2>Share post "{{post.title}}" by E-Mail</h2></u><br>
+        <table>
+      {% for field in form %}
+        <tr>
+          <th>{{field.label_tag}}</th>
+          <td>
+            {{ field.errors }}
+            {{ field }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table><br>
+    {% csrf_token %}
+    <!-- <input type='submit' class='btn btn-lg btn-primary' value='Share by Email'> -->
+    <input type='submit' title="Facebook" class="btn btn-facebook btn-lg" value='Send Email'><i class="fa fa-facebook fa-fw"></i>
+    </center>
+</form>
+    {% endif %}
+{% endblock %}
